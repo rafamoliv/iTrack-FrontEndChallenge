@@ -1,20 +1,14 @@
 import api from "~/services/api";
+import { ActionCreators } from "../Reducers/vehicleListReducer";
 
 export const GetVehicleList = async (dispatch) => {
   try {
-    dispatch({
-      type: "VEHICLE_LIST_LOADING",
-    });
+    dispatch(ActionCreators.vehicleListLoading());
 
-    const response = await api.get(`recruitmentpositionapi/vehicles`);
+    const { data } = await api.get(`recruitmentpositionapi/vehicles`);
 
-    dispatch({
-      type: "VEHICLE_LIST_SUCCESS",
-      payload: response.data,
-    });
-  } catch (e) {
-    dispatch({
-      type: "VEHICLE_LIST_FAIL",
-    });
+    dispatch(ActionCreators.vehicleListSuccess(data));
+  } catch (error) {
+    dispatch(ActionCreators.vehicleListFail());
   }
 };

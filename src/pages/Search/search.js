@@ -1,12 +1,23 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import VehicleList from "~/components/vehicleList";
 
-function Search() {
+export default function Search() {
   return (
-    <View>
-      <Text>Search</Text>
+    <View style={styles.container}>
+      <Text style={styles.text}>Search</Text>
+      <Text style={styles.text}>Search</Text>
+      <VehicleList />
     </View>
   );
 }
 
-export default Search;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+
+  text: {
+    color: "#f5ffff",
+  },
+});

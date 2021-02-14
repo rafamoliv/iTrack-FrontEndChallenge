@@ -1,14 +1,13 @@
 import * as React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Landing from "~/pages/Landing";
-import Vehicles from "~/pages/Vehicles";
+import SearchStack from "./searchStack";
 
 import { Ionicons } from "@expo/vector-icons";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
 /* console.disableYellowBox = true; */
-//Exports Tabs Navigations
 export default function AppTabs() {
   return (
     <Navigator
@@ -46,10 +45,10 @@ export default function AppTabs() {
         }}
       />
       <Screen
-        name="Vehicles"
-        component={Vehicles}
+        name="SearchStack"
+        component={SearchStack}
         options={{
-          tabBarLabel: "Vehicles",
+          tabBarLabel: "SearchStack",
           tabBarIcon: ({ color, size }) => {
             return <Ionicons name="ios-search" size={size} color={color} />;
           },

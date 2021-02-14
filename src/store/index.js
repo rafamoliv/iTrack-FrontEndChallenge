@@ -1,9 +1,10 @@
-import { createStore } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-import { applyMiddleware } from "redux";
-import thunk from "redux-thunk";
-import RootReducer from "./Reducers/rootReducer";
+import { configureStore } from "@reduxjs/toolkit";
+import positionListReducer from "./Reducers/positionListReducer";
+import vehicleListReducer from "./Reducers/vehicleListReducer";
 
-const Store = createStore(RootReducer, composeWithDevTools(applyMiddleware(thunk)));
-
-export default Store;
+export default configureStore({
+  reducer: {
+    vehicleListReducer: vehicleListReducer,
+    positionListReducer: positionListReducer,
+  },
+});
