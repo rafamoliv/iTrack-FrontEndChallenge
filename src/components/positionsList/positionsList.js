@@ -1,28 +1,43 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { Text } from "react-native";
+import { Container, Body, IndexMap, ImgMap, TextMap, TravelsBody, TravelsText } from "./styled";
 
 export default function PositionsList({ data, index }) {
+  const i = index + 1;
+
+  const dateObject = new Date(data.dateTime);
+  const dateFormat = dateObject.toLocaleString();
+
+  const dateObjectFinal = new Date(data.finalDateTime);
+  const dateFormatFinal = dateObjectFinal.toLocaleString();
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>
+    <Container>
+      <Body>
+        <IndexMap>
+          <ImgMap source={require("~/assets/images/maps.png")} />
+          <TextMap>Viagem {i}</TextMap>
+        </IndexMap>
         {data.finalDateTime ? (
-          <Text>
-            {data.initialAddress} á {data.finalAddress}
-          </Text>
+          <TravelsBody>
+            <TravelsText>Saída: {data.address}</TravelsText>
+            <TravelsText>Chegada: {data.finalAddress}</TravelsText>
+
+            <Text> </Text>
+
+            <TravelsText>Km rodados: {data.distanceKm} km</TravelsText>
+            <TravelsText>Conclusão: {dateFormatFinal}</TravelsText>
+          </TravelsBody>
         ) : (
-          <Text>{data.initialAddress}</Text>
+          <TravelsBody>
+            <TravelsText>{data.address}</TravelsText>
+
+            <Text> </Text>
+
+            <TravelsText>Início: {dateFormat}</TravelsText>
+          </TravelsBody>
         )}
-      </Text>
-    </View>
+      </Body>
+    </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-
-  text: {
-    color: "#f5ffff",
-  },
-});

@@ -1,79 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import PositionsList from "~/components/positionsList";
-import { useRoute } from "@react-navigation/native";
-import api from "~/services/api";
+import VehicleList from "~/components/vehicleList";
 
-/* import { useDispatch, useSelector } from "react-redux";
-import { GetPositionList } from "~/store/Actions/positionActions"; */
+import { useDispatch, useSelector } from "react-redux";
+import { GetVehicleList } from "~/store/Actions/vehicleActions";
+import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native";
+
+import { GetPositionList } from "~/store/Actions/positionActions";
 
 export default function Vehicles() {
-  const { vehicle } = useRoute().params;
-  const [positions, setPositions] = useState([]);
-  const [lastPos, setLastPos] = useState([]);
+  const dispatch = useDispatch();
+  const vehicles = useSelector((state) => state.vehicleListReducer.vehicles);
 
-  /*   const dispatch = useDispatch();
-  const positions = useSelector((state) => state.vehicleListReducer.positions);
+  const navigation = useNavigation();
 
-  useEffect(() => {
-    GetPositionList(dispatch);
-  }, []); */
-
-  useEffect(() => {
-    async function getPositions() {
-      await api.get(`recruitmentpositionapi/vehicles/${vehicle.id}/positions`).then(({ data }) => {
-        if (data) {
-          setPositions(getTravels(data));
-          setLastPos(data);
-        }
-      });
-    }
-    getPositions();
-  }, [vehicle]);
-
-  function getTravels(setPositions) {
-    var positions = [];
-    var position = null;
-
-    for (let p of setPositions) {
-      if (p.ignition) {
-        if (position === null) position = p;
-        if (position !== null && setPositions[setPositions.length - 1].id === p.id) {
-          positions.push({
-            vehicleId: p.vehicleId,
-            initialDateTime: p.datetime,
-            finalDateTime: null,
-            initialAddress: p.address,
-            finalAddress: null,
-            distanceInMeters: 0,
-            totalTimeInMinutes: 0,
-          });
-        }
-      }
-
-      if (!p.ignition && position !== null) {
-        positions.push({
-          vehicleId: p.vehicleId,
-          initialDateTime: position?.datetime,
-          finalDateTime: p.datetime,
-          initialAddress: position?.address,
-          finalAddress: p.address,
-          distanceInMeters: parseInt(p.hodometro) - parseInt(position?.hodometro),
-          totalTimeInMinutes: (p.datetime - position?.datetime) / 60000,
-        });
-
-        position = null;
-      }
-    }
-
-    return positions;
+  function vehiclePositions(vehicleId) {
+    navigation.navigate("Positions", {
+      vehicle: vehicleId,
+    });
   }
 
-  var lastPosition = lastPos[lastPos.length - 1];
+  useEffect(() => {
+    GetVehicleList(dispatch);
+  }, []);
 
   return (
     <View style={styles.container}>
-      <FlatList data={positions} keyExtractor={(item, index) => String(index)} renderItem={({ item, index }) => <PositionsList data={item} index={index} />} />
+      <FlatList
+        data={vehicles}
+        keyExtractor={(item) => String(item.id)}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => GetPositionList(item.id) && vehiclePositions(item)}>
+            <VehicleList data={item} />
+          </TouchableOpacity>
+        )}
+      />
     </View>
   );
 }

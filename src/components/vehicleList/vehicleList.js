@@ -1,22 +1,20 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import BrandImg from "../brandImg/index";
+import { Container, Descriptions, Plate, CarModel, CarBrand, CarDescription } from "./styled";
 
 export default function VehicleList({ data }) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>{data.name}</Text>
-      <Text style={styles.text}>{data.brand}</Text>
-      <Text style={styles.text}>{data.description}</Text>
-    </View>
+    <Container>
+      <BrandImg value={data.model} />
+      <Descriptions>
+        <Plate>{data.name}</Plate>
+        <CarModel>
+          <CarBrand>{data.brand}</CarBrand>
+          <CarBrand> {data.model}</CarBrand>
+        </CarModel>
+        <CarDescription>{data.description}</CarDescription>
+      </Descriptions>
+    </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-
-  text: {
-    color: "#f5ffff",
-  },
-});

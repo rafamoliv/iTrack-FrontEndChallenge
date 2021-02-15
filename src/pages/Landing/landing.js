@@ -1,31 +1,20 @@
-import React, { useEffect } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import _ from "lodash";
-import { GetVehicleList } from "~/store/Actions/vehicleActions";
+import React from "react";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Container, Logo, Body, CarImg, Btn, Footer, Img } from "./styled";
 
-export default function Landing() {
-  const dispatch = useDispatch();
-  const vehicleList = useSelector((state) => state.VehicleListReducer);
-
-  useEffect(() => {
-    GetVehicleList(dispatch);
-  }, []);
-
+export default function Landing({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Landing</Text>
-      <FlatList data={vehicleList} renderItem={({ item }) => <Text style={styles.text}>{item.name}</Text>} />
-    </View>
+    <Container>
+      <Logo source={require("~/assets/images/intertrackLogo.png")} />
+      <TouchableOpacity onPress={() => navigation.navigate("SearchStack")}>
+        <Body>
+          <CarImg source={require("~/assets/images/default.png")} />
+          <Btn>Meus carros</Btn>
+        </Body>
+      </TouchableOpacity>
+      <Footer>
+        <Img source={require("~/assets/images/roGold.png")} />
+      </Footer>
+    </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-
-  text: {
-    color: "#f5ffff",
-  },
-});

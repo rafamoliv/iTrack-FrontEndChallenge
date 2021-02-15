@@ -50,7 +50,7 @@ export default function AppTabs() {
         options={{
           tabBarLabel: "SearchStack",
           tabBarIcon: ({ color, size }) => {
-            return <Ionicons name="ios-search" size={size} color={color} />;
+            return <Ionicons name="car-sport-outline" size={size} color={color} />;
           },
         }}
       />
