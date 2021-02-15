@@ -25,7 +25,7 @@ export default (state = initialState, action) => {
       return { ...state, loading: true, errorMsg: "Poxa, seu carro não foi encontrado." };
 
     case ActionTypes.POSITION_LIST_SUCCESS:
-      return { ...state, positions: [...action.payload], vehicleId: vehicleId };
+      return { ...state, positions: [...action.payload] };
 
     default:
       return state;

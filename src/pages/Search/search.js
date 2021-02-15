@@ -1,13 +1,41 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useEffect } from "react";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 import VehicleList from "~/components/vehicleList";
 
+import { useDispatch, useSelector } from "react-redux";
+import { GetVehicleList } from "~/store/Actions/vehicleActions";
+import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native";
+
+import { GetPositionList } from "~/store/Actions/positionActions";
+
 export default function Search() {
+  const dispatch = useDispatch();
+  const vehicles = useSelector((state) => state.vehicleListReducer.vehicles);
+
+  const navigation = useNavigation();
+
+  function vehiclePositions(vehicleId) {
+    navigation.navigate("Vehicles", {
+      vehicle: vehicleId,
+    });
+  }
+
+  useEffect(() => {
+    GetVehicleList(dispatch);
+  }, []);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Search</Text>
-      <Text style={styles.text}>Search</Text>
-      <VehicleList />
+      <FlatList
+        data={vehicles}
+        keyExtractor={(item) => String(item.id)}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => GetPositionList(item.id) && vehiclePositions(item)}>
+            <VehicleList data={item} />
+          </TouchableOpacity>
+        )}
+      />
     </View>
   );
 }

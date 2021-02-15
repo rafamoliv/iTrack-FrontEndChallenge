@@ -1,14 +1,11 @@
 import api from "~/services/api";
 import { ActionCreators } from "../Reducers/positionListReducer";
-import { useRoute } from "@react-navigation/native";
 
-export const GetPositionList = async (dispatch) => {
-  const { id } = useRoute().params;
-
+export const GetPositionList = (item) => async (dispatch) => {
   try {
     dispatch(ActionCreators.positionListLoading());
 
-    const { data } = await api.get(`recruitmentpositionapi/vehicles/${id.id}/positions`);
+    const { data } = await api.get(`recruitmentpositionapi/vehicles/${item}/positions`);
 
     dispatch(ActionCreators.positionListSuccess(data));
   } catch (error) {
