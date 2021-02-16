@@ -55,7 +55,7 @@ export default function Positions() {
         }
       }
 
-      if (!p.ignition && position !== null) {
+      if (position !== null && !p.ignition) {
         positions.push({
           vehicleId: p.vehicleId,
 
